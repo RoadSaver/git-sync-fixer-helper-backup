@@ -1,0 +1,119 @@
+# App Data & Interaction Visual Diagram and Granular Breakdown (June 2025)
+
+---
+
+## Visual Diagram (Textual)
+
+```
+[Supabase DB]
+   |-- existing_user_accounts
+   |-- new_user_accounts
+   |-- employee_accounts
+   |-- employee_simulation
+   |-- user_history
+   |-- user_finished_requests
+
+[Users] <-------------------+-------------------> [Admins]
+   |                        |                        |
+   |                        |                        |
+   |                        |                        |
+   v                        v                        v
+[UserAccountService]   [EmployeeAccountService]   [MigrationHelper]
+   |                        |                        |
+   |                        |                        |
+   v                        v                        v
+[UserManagement]       [EmployeeManagement]      [MigrationPanel]
+   |                        |                        |
+   v                        v                        v
+[User UI]              [Employee UI]             [Admin UI]
+   |                        |                        |
+   v                        v                        v
+[AppContext] <----------------------------------------+
+   |
+   v
+[useEmployeeInteraction]
+
+[Simulated Employees]
+   |-- [employee_simulation table]
+   |-- [employee-simulation-names.txt]
+   |-- [useEmployeeSimulation]
+   |-- [employeeSimulationBlacklist]
+   |-- [useRequestSimulation]
+```
+
+---
+
+## Granular Breakdown by Function/Component
+
+### Users
+- **Authentication/Registration:**
+  - `src/pages/user/Auth.tsx` (UI, calls UserAccountService)
+  - `src/services/userAccountService.ts` (create, update, migrate, fetch)
+- **Profile/Settings:**
+  - `src/contexts/AppContext.tsx` (stores user info, provides context)
+- **History:**
+  - `src/services/userHistoryService.ts` (fetches/completes/declines requests)
+- **Admin Management:**
+  - `src/components/admin/UserManagement.tsx` (list, edit, create users)
+  - `src/components/admin/CreateUserModal.tsx` (create user modal)
+
+### Employees (Actual)
+- **Authentication:**
+  - `src/pages/employee/EmployeeAuth.tsx` (UI, login)
+- **Dashboard/Requests:**
+  - `src/pages/employee/EmployeeDashboard.tsx` (main dashboard, handles requests)
+  - `src/components/employee/EmployeeHeader.tsx`, `EmployeeSettingsMenu.tsx`, `AccountSettingsTab.tsx` (profile/settings/logout)
+- **Data Fetch/Management:**
+  - `src/hooks/employeeList.ts` (fetches from employee_accounts)
+  - `src/services/employeeAccountService.ts` (CRUD for employees)
+- **Admin Management:**
+  - `src/components/admin/EmployeeManagement.tsx` (list, edit, create employees)
+
+### Simulated Employees
+- **Data Source:**
+  - `employee_simulation` table (Supabase)
+  - `public/lovable-uploads/employee-simulation-names.txt` (names)
+- **Simulation Logic:**
+  - `src/hooks/useEmployeeSimulation.ts` (loads, randomizes simulated employees)
+  - `src/hooks/employeeSimulationBlacklist.ts` (blacklist, fetches from Supabase)
+  - `src/components/service/hooks/useRequestSimulation.ts` (simulates assignment, accept/decline, price quote)
+
+### Admins
+- **User/Employee Management:**
+  - `src/components/admin/UserManagement.tsx` (users)
+  - `src/components/admin/EmployeeManagement.tsx` (employees)
+  - `src/components/admin/SimulationManagement.tsx` (simulated employees)
+- **Migration/Stats:**
+  - `src/components/admin/MigrationPanel.tsx` (migration UI)
+  - `src/utils/migrationHelper.ts` (migration logic)
+- **Create User:**
+  - `src/components/admin/CreateUserModal.tsx`
+
+### Shared/Contextual
+- **App Context:**
+  - `src/contexts/AppContext.tsx` (global state for user/employee/admin)
+- **Documentation:**
+  - `src/hooks/useEmployeeInteraction.ts` (summary of all employee-related interactions)
+
+---
+
+## Example: Function/Component Usage
+
+- **UserAccountService**
+  - Used by: `UserManagement.tsx`, `CreateUserModal.tsx`, `Auth.tsx`, `userHistoryService.ts`
+  - Functions: createNewUserAccount, createUserByAdmin, getExistingUsers, updateExistingUser, migrateUserToExisting
+
+- **EmployeeAccountService**
+  - Used by: `EmployeeManagement.tsx`, `employeeList.ts`, `EmployeeDashboard.tsx`
+  - Functions: createEmployeeAccount, getAllEmployees, getEmployeeById, updateEmployeeStatus
+
+- **useEmployeeSimulation**
+  - Used by: `useRequestSimulation.ts`, simulation flows in dashboard
+  - Functions: loadEmployees, getRandomEmployee
+
+- **AppContext**
+  - Used by: all main pages/components for authentication, language, and theme
+
+---
+
+For a graphical diagram, consider using tools like draw.io or Mermaid.js with the above structure as a base.

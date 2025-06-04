@@ -1,0 +1,84 @@
+# App Data & Interaction Map (June 2025)
+
+This document provides a detailed map of all files and data sources related to users, employees, simulated employees, and admins in the RoadSaver app, including their usage and purpose.
+
+---
+
+## 1. Users (Customers)
+
+**Main Data Source:**
+- Supabase tables: `existing_user_accounts`, `new_user_accounts`, `user_history`, `user_finished_requests`
+
+**Key Files:**
+- `src/services/userAccountService.ts`: CRUD for user accounts, used by admin panels and user flows.
+- `src/components/admin/UserManagement.tsx`: Admin UI for listing, creating, editing, and managing users.
+- `src/components/admin/CreateUserModal.tsx`: Modal for admin to create new user accounts.
+- `src/pages/user/Auth.tsx`: User authentication and registration page.
+- `src/services/userHistoryService.ts`: Fetches and manages user service history.
+- `src/contexts/AppContext.tsx`: Stores current user state and provides context to the app.
+
+---
+
+## 2. Employees (Actual)
+
+**Main Data Source:**
+- Supabase table: `employee_accounts`
+
+**Key Files:**
+- `src/services/employeeAccountService.ts`: CRUD for employee accounts, used by admin panels and employee flows.
+- `src/hooks/employeeList.ts`: Defines the Employee interface, fetches all employees from Supabase.
+- `src/components/admin/EmployeeManagement.tsx`: Admin UI for managing employees.
+- `src/pages/employee/EmployeeDashboard.tsx`: Main dashboard for employees to manage service requests.
+- `src/pages/employee/EmployeeAuth.tsx`: Employee login page.
+- `src/components/employee/EmployeeHeader.tsx`, `EmployeeSettingsMenu.tsx`, `AccountSettingsTab.tsx`: UI for employee profile, settings, and logout.
+
+---
+
+## 3. Simulated Employees
+
+**Main Data Source:**
+- Supabase table: `employee_simulation`
+- Static file: `public/lovable-uploads/employee-simulation-names.txt`
+
+**Key Files:**
+- `src/hooks/useEmployeeSimulation.ts`: Loads simulated employees from Supabase, provides random assignment.
+- `src/hooks/employeeSimulationBlacklist.ts`: Blacklist for simulated employees, fetches blacklisted from Supabase.
+- `src/components/service/hooks/useRequestSimulation.ts`: Simulates employee assignment, acceptance, decline, and price quoting for demo/testing.
+- `public/lovable-uploads/employee-simulation-names.txt`: List of names for simulated employees.
+
+---
+
+## 4. Admins
+
+**Main Data Source:**
+- (Admins are typically flagged in `existing_user_accounts` or a separate table/role)
+
+**Key Files:**
+- `src/components/admin/UserManagement.tsx`: Admin UI for managing users.
+- `src/components/admin/EmployeeManagement.tsx`: Admin UI for managing employees.
+- `src/components/admin/SimulationManagement.tsx`: Admin UI for managing simulated employees.
+- `src/components/admin/MigrationPanel.tsx`: Admin UI for migrations and stats.
+- `src/utils/migrationHelper.ts`: Utility for migrating users and employees between tables.
+- `src/components/admin/CreateUserModal.tsx`: Admin UI for creating new users.
+
+---
+
+## 5. Shared/Contextual Files
+
+- `src/contexts/AppContext.tsx`: Central context for user/employee/admin state and authentication.
+- `src/hooks/useEmployeeInteraction.ts`: Documentation and summary of all employee-related interactions.
+
+---
+
+## Summary Table
+
+| Entity              | Data Source(s)                        | Main Files (CRUD/UI/Logic)                                                                                 |
+|---------------------|---------------------------------------|------------------------------------------------------------------------------------------------------------|
+| Users               | `existing_user_accounts`, `userHistory` | `userAccountService.ts`, `UserManagement.tsx`, `CreateUserModal.tsx`, `Auth.tsx`, `userHistoryService.ts`  |
+| Employees           | `employee_accounts`                   | `employeeAccountService.ts`, `employeeList.ts`, `EmployeeManagement.tsx`, `EmployeeDashboard.tsx`          |
+| Simulated Employees | `employee_simulation`, names.txt      | `useEmployeeSimulation.ts`, `employeeSimulationBlacklist.ts`, `useRequestSimulation.ts`, names.txt         |
+| Admins              | (flagged in users or separate)        | `UserManagement.tsx`, `EmployeeManagement.tsx`, `SimulationManagement.tsx`, `MigrationPanel.tsx`, `CreateUserModal.tsx` |
+
+---
+
+For more details, see the referenced files in the `src/` directory.

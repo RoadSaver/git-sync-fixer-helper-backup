@@ -1,19 +1,18 @@
-
 export const themeTranslations = {
   'dark-mode': {
-    en: 'Dark Mode',
+    en: 'Dark mode.',
     bg: 'Тъмен режим'
   },
   'light-mode': {
-    en: 'Light Mode',
+    en: 'Light mode.',
     bg: 'Светъл режим'
   },
   'theme': {
-    en: 'Theme',
+    en: 'Theme.',
     bg: 'Тема'
   },
   'appearance': {
-    en: 'Appearance',
+    en: 'Appearance.',
     bg: 'Външен вид'
   }
 };

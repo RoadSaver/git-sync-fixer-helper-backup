@@ -1,0 +1,230 @@
+# App UI Texts, Locations, and Corresponding Buttons (June 2025)
+
+This file lists every text string used in the app's interface, grouped by translation file, with the file location and the corresponding button or UI element (where applicable). For each translation key, the main component or page and the UI element (e.g., Button, Label, Dialog, etc.) are listed.
+
+---
+
+## src/utils/translations/ui.ts
+- cancel: Button (e.g., Cancel in dialogs, forms, modals)
+- submit: Button (e.g., Submit in forms)
+- close: Button (e.g., Close in dialogs, modals, Toast, DialogClose)
+- send: Button (e.g., Send in forms, chat, support)
+- accept: Button (e.g., Accept in service request dialogs)
+- decline: Button (e.g., Decline in service request dialogs)
+- error: Toast, DialogTitle, FormMessage
+- please-fill-fields: FormMessage, validation error
+- valid-email: FormMessage, validation error
+- password-error: FormMessage, validation error
+- passwords-no-match: FormMessage, validation error
+- alert: DialogTitle, Toast
+- alert-title: DialogTitle
+- alert-description: DialogDescription
+- confirm-cancellation-title: DialogTitle (Cancel Request?)
+- confirm-cancellation-desc: DialogDescription (Cancel confirmation dialog)
+- no: Button (e.g., No in confirmation dialogs)
+- yes-cancel: Button (e.g., Yes, Cancel in confirmation dialogs)
+
+## src/utils/translations/theme.ts
+- dark-mode: ThemeToggle (label, tooltip)
+- light-mode: ThemeToggle (label, tooltip)
+- theme: SettingsMenu, ThemeToggle
+- appearance: SettingsMenu
+
+## src/utils/translations/status.ts
+- pending: Status badge, Table, Request cards
+- accepted: Status badge, Table, Request cards
+- declined: Status badge, Table, Request cards
+- completed: Status badge, Table, Request cards
+- new-request: Toast, Notification, Request cards
+- request-accepted: Toast, Notification
+- request-declined: Toast, Notification
+- customer-location: Map, Dialog
+- accept: Button (Accept in request dialogs)
+- decline: Button (Decline in request dialogs)
+- close: Button (Close in dialogs)
+- completed-requests: Section title, Tab
+- completed-requests-desc: Section description, Tab
+
+## src/utils/translations/settings.ts
+- settings: SettingsMenu, Button, DialogTitle
+- configure-preferences: DialogDescription (Settings)
+- account: Tab, Sidebar, Section title
+- account-info: Section title, CardTitle
+- payment: Tab, Sidebar, Section title
+- payment-methods: Section title
+- payment-options: PaymentTabContent (Button, Section title)
+- add-payment-method: PaymentTabContent (Button)
+- payment-options-desc: PaymentTabContent (description)
+- history: Tab, Sidebar, Section title
+- request-history: Section title
+- requests-desc: Section description
+- about: Tab, Sidebar, Section title
+- app-info: Section title
+- no-requests: Table, List, Empty state
+- completed: Status badge, Table
+- declined: Status badge, Table
+- employee: Table, Label
+- total-price: Table, Label
+- address: Table, Label
+- view-on-map: Button (View on Map)
+- reason: Label, FormLabel
+- username: Label, FormLabel, Table
+- email: Label, FormLabel, Table
+- phone: Label, FormLabel, Table
+- gender: Label, FormLabel, Table
+- joined-date: Label, Table
+- edit-profile: Button (Edit Profile)
+- change-password: Button (Change Password)
+- logout: Button (Logout)
+- logout-confirm: DialogTitle, DialogDescription
+- cancel: Button (Cancel in dialogs)
+- confirm: Button (Confirm in dialogs)
+- save-changes: Button (Save Changes)
+- profile-updated: Toast, DialogTitle
+- profile-update-success: Toast, DialogDescription
+- profile-update-error: Toast, DialogDescription
+- password-updated: Toast, DialogTitle
+- password-update-success: Toast, DialogDescription
+- password-update-error: Toast, DialogDescription
+- current-password: Label, FormLabel
+- new-password: Label, FormLabel
+- confirm-new-password: Label, FormLabel
+
+## src/utils/translations/service.ts
+- flat-tyre: Service card, Button, Label
+- flat-tyre-desc: Service card, Description
+- out-of-fuel: Service card, Button, Label
+- out-of-fuel-desc: Service card, Description
+- car-battery: Service card, Button, Label
+- car-battery-desc: Service card, Description
+- other-car-problems: Service card, Button, Label
+- other-car-problems-desc: Service card, Description
+- tow-truck: Service card, Button, Label
+- tow-truck-desc: Service card, Description
+- support: Button (Contact Support)
+- support-desc: Description (Contact Support)
+- service: Label, Section title
+- service-desc: Description
+- services: Section title, Tab
+- ongoing-requests: Section title, Tab
+- service-requests: Section title, Tab
+- service-request: Label, Table
+- new-service-request: Toast, Notification
+- decline-service-request: Button (Decline Service Request)
+- from: Label, Table
+- write-email: Button, Label
+- give-call: Button, Label
+- contact-options: Section title, DialogTitle
+- new-request: Toast, Notification
+- outside-hours: DialogDescription, Notification
+- phone-number: Label, Table
+- completed-at: Label, Table
+
+## src/utils/translations/general.ts
+- welcome: Toast, DialogTitle
+- dashboard: Sidebar, Tab, Section title
+- settings: Sidebar, Tab, Button, DialogTitle
+- logout: Sidebar, Button, DialogTitle
+- cancel: Button (Cancel in dialogs)
+- confirm: Button (Confirm in dialogs)
+- save: Button (Save in forms)
+- edit: Button (Edit in tables, profile)
+- delete: Button (Delete in tables, profile)
+- close: Button (Close in dialogs, Toast)
+- back: Button (Back in navigation, dialogs)
+- next: Button (Next in navigation, forms)
+- loading: Loader, Button (Loading...)
+- error: Toast, DialogTitle, FormMessage
+- success: Toast, DialogTitle
+- warning: Toast, DialogTitle
+- info: Toast, DialogTitle
+- yes: Button (Yes in dialogs)
+- no: Button (No in dialogs)
+- ok: Button (OK in dialogs)
+- continue: Button (Continue in forms, onboarding)
+- skip: Button (Skip in onboarding)
+- retry: Button (Retry in error dialogs)
+- refresh: Button (Refresh in error dialogs)
+- update: Button (Update in dialogs)
+- upload: Button (Upload in forms)
+- download: Button (Download in forms)
+- share: Button (Share in forms)
+- copy: Button (Copy in forms)
+- paste: Button (Paste in forms)
+- cut: Button (Cut in forms)
+- select-all: Button (Select All in forms)
+- clear: Button (Clear in forms)
+- reset: Button (Reset in forms)
+- submit: Button (Submit in forms)
+- send: Button (Send in forms)
+- receive: Button (Receive in forms)
+- connect: Button (Connect in forms)
+- disconnect: Button (Disconnect in forms)
+- online: Status badge
+- offline: Status badge
+- available: Status badge
+- unavailable: Status badge
+- enabled: Status badge
+- disabled: Status badge
+- active: Status badge
+- inactive: Status badge
+- completed: Status badge
+- pending: Status badge
+- failed: Status badge
+- processing: Loader, Button
+- searching: Loader, Button
+- no-results: Table, List, Empty state
+- location-updated: Toast, Notification
+- location-updated-msg: Toast, Notification
+- location-access-denied: Toast, Notification
+- location-access-message: Toast, Notification
+- tap-to-view-details: Button, Label
+- review-price-and-decide: Label, Section
+- app-subtitle: Index page subtitle
+- user-app: Button (User App)
+- for-customers: Label, Section
+- open-user-app: Button (Open User App)
+- employee-app: Button (Employee App)
+- for-service-providers: Label, Section
+- open-employee-app: Button (Open Employee App)
+- account-manager-title: Section title
+- account-manager-desc: Section description
+- open-account-manager: Button (Open Account Manager)
+- ongoing-requests: Section title, Tab
+- update-location: Button (Update Location)
+- change-language: Button (Change Language, LanguageSwitcherControls, EmployeeHeader, DashboardHeader)
+- request-history: Section title
+- requests-desc: Section description
+- no-requests: Table, List, Empty state
+- payment-options: PaymentTabContent (Button, Section title)
+- payment-options-desc: PaymentTabContent (description)
+- add-payment-method: PaymentTabContent (Button)
+- account-info: Section title
+- change-account-info: Button (Change Account Info)
+- about-us: Section title
+- about-us-desc: Section description
+- terms-and-conditions: Section title
+- terms-and-conditions-desc: Section description
+- privacy-policy: Section title
+- privacy-policy-desc: Section description
+- help-and-support: Section title
+- help-and-support-desc: Section description
+- faq: Section title
+- faq-desc: Section description
+- version: Label, Section
+- work-hours: Label, Section
+- work-hours-range: Label, Section
+- outside-hours: DialogDescription, Notification
+- contact-information: Section title
+- email: Label, Table
+- phone: Label, Table
+- facebook: Button (Facebook)
+- messenger: Button (Messenger)
+- whatsapp: Button (WhatsApp)
+- viber: Button (Viber)
+
+---
+
+For all other translation keys (auth, secret questions, etc.), the usage is similar: they are used as labels, placeholders, button text, dialog titles, and descriptions in forms, authentication screens, and modals. For the exact component, search for `t('key')` in the codebase.
+
+For more details, see the corresponding component or page that calls the translation key (e.g., `t('cancel')` in a button or dialog).

@@ -1,19 +1,18 @@
-
 export const status = {
   en: {
-    'pending': 'Pending',
-    'accepted': 'Accepted',
-    'declined': 'Declined',
-    'completed': 'Completed',
-    'new-request': 'New Request',
-    'request-accepted': 'Request Accepted',
-    'request-declined': 'Request Declined',
-    'customer-location': 'Customer Location',
-    'accept': 'Accept',
-    'decline': 'Decline',
-    'close': 'Close',
-    'completed-requests': 'Completed Requests',
-    'completed-requests-desc': 'View all completed service requests'
+    'pending': 'Pending.',
+    'accepted': 'Accepted.',
+    'declined': 'Declined.',
+    'completed': 'Completed.',
+    'new-request': 'New request.',
+    'request-accepted': 'Request accepted.',
+    'request-declined': 'Request declined.',
+    'customer-location': 'Customer location.',
+    'accept': 'Accept.',
+    'decline': 'Decline.',
+    'close': 'Close.',
+    'completed-requests': 'Completed requests.',
+    'completed-requests-desc': 'View all completed service requests.',
   },
   bg: {
     'pending': 'Чакащ',

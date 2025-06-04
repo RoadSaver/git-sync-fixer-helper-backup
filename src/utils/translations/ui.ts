@@ -1,4 +1,3 @@
-
 interface TranslationEntry {
   en: string;
   bg: string;
@@ -11,63 +10,63 @@ interface TranslationGroup {
 // UI elements and buttons translations
 export const uiTranslations: TranslationGroup = {
   'cancel': {
-    en: 'Cancel',
+    en: 'Cancel.',
     bg: 'Отказ'
   },
   'submit': {
-    en: 'Submit',
+    en: 'Submit.',
     bg: 'Изпращане'
   },
   'close': {
-    en: 'Close',
+    en: 'Close.',
     bg: 'Затвори'
   },
   'send': {
-    en: 'Send',
+    en: 'Send.',
     bg: 'Изпрати'
   },
   'accept': {
-    en: 'Accept',
+    en: 'Accept.',
     bg: 'Приеми'
   },
   'decline': {
-    en: 'Decline',
+    en: 'Decline.',
     bg: 'Откажи'
   },
   'error': {
-    en: 'Error',
+    en: 'Error.',
     bg: 'Грешка'
   },
   'please-fill-fields': {
-    en: 'Please fill in all fields',
+    en: 'Please fill in all fields.',
     bg: 'Моля, попълнете всички полета'
   },
   'valid-email': {
-    en: 'Please enter a valid email address',
+    en: 'Please enter a valid email address.',
     bg: 'Моля, въведете валиден имейл адрес'
   },
   'password-error': {
-    en: 'Password Error',
+    en: 'Password error.',
     bg: 'Грешка в паролата'
   },
   'passwords-no-match': {
-    en: 'Passwords do not match',
+    en: 'Passwords do not match.',
     bg: 'Паролите не съвпадат'
   },
   'alert': {
-    en: 'Alert',
+    en: 'Alert.',
     bg: 'Предупреждение'
   },
   'alert-title': {
-    en: 'Alert Title',
+    en: 'Alert title.',
     bg: 'Заглавие на предупреждение'
   },
   'alert-description': {
-    en: 'Alert Description',
+    en: 'Alert description.',
     bg: 'Описание на предупреждение'
   },
   'confirm-cancellation-title': {
-    en: 'Cancel Request?',
+    en: 'Cancel request?',
     bg: 'Отказ на заявката?'
   },
   'confirm-cancellation-desc': {
@@ -75,11 +74,11 @@ export const uiTranslations: TranslationGroup = {
     bg: 'Сигурни ли сте, че искате да отмените заявката си за услуга?'
   },
   'no': {
-    en: 'No',
+    en: 'No.',
     bg: 'Не'
   },
   'yes-cancel': {
-    en: 'Yes, Cancel',
+    en: 'Yes, cancel.',
     bg: 'Да, отмени'
   },
 };

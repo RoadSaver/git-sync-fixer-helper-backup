@@ -1,0 +1,372 @@
+# App UI Texts and Locations (June 2025)
+
+This file lists every text string used in the app's interface, grouped by translation file and indicating the file location. Each entry is used in one or more screens or components via the translation system.
+
+---
+
+## src/utils/translations/ui.ts
+- Cancel.
+- Submit.
+- Close.
+- Send.
+- Accept.
+- Decline.
+- Error.
+- Please fill in all fields.
+- Please enter a valid email address.
+- Password error.
+- Passwords do not match.
+- Alert.
+- Alert title.
+- Alert description.
+- Cancel request?
+- Are you sure you want to cancel your service request?
+- No.
+- Yes, cancel.
+
+## src/utils/translations/theme.ts
+- Dark mode.
+- Light mode.
+- Theme.
+- Appearance.
+
+## src/utils/translations/status.ts
+- Pending.
+- Accepted.
+- Declined.
+- Completed.
+- New request.
+- Request accepted.
+- Request declined.
+- Customer location.
+- Accept.
+- Decline.
+- Close.
+- Completed requests.
+- View all completed service requests.
+
+## src/utils/translations/settings.ts
+- Settings.
+- Configure your preferences.
+- Account.
+- Account information.
+- Payment.
+- Payment methods.
+- Payment options.
+- Add payment method.
+- Payment options will be available in a future update.
+- History.
+- Request history.
+- View all your previous service requests.
+- About.
+- App information.
+- No requests found.
+- Completed.
+- Declined.
+- Employee.
+- Total price.
+- Address.
+- View on map.
+- Reason.
+- Username.
+- Email.
+- Phone number.
+- Gender.
+- Member since.
+- Edit profile.
+- Change password.
+- Logout.
+- Are you sure you want to logout?
+- Cancel.
+- Confirm.
+- Save changes.
+- Profile updated.
+- Your profile has been updated successfully.
+- Failed to update profile. Please try again.
+- Password updated.
+- Your password has been updated successfully.
+- Failed to update password. Please try again.
+- Current password.
+- New password.
+- Confirm new password.
+
+## src/utils/translations/service.ts
+- Flat tyre.
+- Get help changing a flat tyre.
+- Out of fuel.
+- Request fuel delivery.
+- Car battery.
+- Get help with your car battery issues.
+- Other car problems.
+- Get help with various car problems.
+- Tow truck.
+- Request towing service.
+- Contact support.
+- Speak with our support team.
+- Service.
+- Request assistance.
+- Services.
+- Ongoing requests.
+- Service requests.
+- Service request:
+- You have received a new service request.
+- Decline service request.
+- From:
+- Write us an email.
+- Give us a call.
+- Contact options.
+- New request.
+- For service requests outside of working hours, please contact support.
+- Phone number:
+- Completed at.
+
+## src/utils/translations/general.ts
+- Welcome.
+- Dashboard.
+- Settings.
+- Logout.
+- Cancel.
+- Confirm.
+- Save.
+- Edit.
+- Delete.
+- Close.
+- Back.
+- Next.
+- Loading...
+- Error.
+- Success.
+- Warning.
+- Information.
+- Yes.
+- No.
+- OK.
+- Continue.
+- Skip.
+- Retry.
+- Refresh.
+- Update.
+- Upload.
+- Download.
+- Share.
+- Copy.
+- Paste.
+- Cut.
+- Select all.
+- Clear.
+- Reset.
+- Submit.
+- Send.
+- Receive.
+- Connect.
+- Disconnect.
+- Online.
+- Offline.
+- Available.
+- Unavailable.
+- Enabled.
+- Disabled.
+- Active.
+- Inactive.
+- Completed.
+- Pending.
+- Failed.
+- Processing.
+- Searching...
+- No results found.
+- Location updated.
+- Your location has been successfully updated.
+- Location access denied.
+- Please enable location access to get better service.
+- Tap to view details.
+- Review the price and decide.
+- Emergency road assistance when you need it most.
+- User app.
+- For customers needing assistance.
+- Open user app.
+- Employee app.
+- For service providers.
+- Open employee app.
+- RoadSaver account manager.
+- Manage user and employee accounts.
+- Open account manager.
+- Ongoing requests.
+- Update location.
+- Change language.
+- Request history.
+- View all your previous service requests.
+- No requests found.
+- Payment options.
+- Payment options will be available in a future update.
+- Add payment method.
+- Account information.
+- Change account information.
+- About us.
+- We are committed to providing the best service possible.
+- Terms and conditions.
+- Please read our terms and conditions before using the app.
+- Privacy policy.
+- Your privacy is important to us. Read our policy here.
+- Help and support.
+- Contact us for help with any issues.
+- Frequently asked questions.
+- Find answers to common questions here.
+- Version.
+- Emergency road assistance service work hours:
+- Mon - Friday from 09:00 - 17:00.
+- For service requests outside of working hours, please contact support.
+- Contact information.
+- Email.
+- Phone.
+- Facebook.
+- Messenger.
+- WhatsApp.
+- Viber.
+
+## src/utils/translations/emergency.ts
+- Police.
+- Ambulance.
+- Fire department.
+- Emergency services.
+- Contact emergency services for immediate assistance.
+- Call the national emergency number.
+- 112.
+- Calling emergency services.
+- Connecting to emergency services...
+
+## src/utils/translations/authUsername.ts
+- Username.
+- Enter your username.
+- Must be between 6 and 20 characters. Spaces are not allowed.
+- Username requirements.
+- You will not have an option to change your username after registration. Usernames can contain letters (a-z), numbers (0-9), dashes (-), underscores (_), apostrophes ('), and periods (.). Usernames can't contain more than one period (.) in a row, accents, accented letters, ampersands (&), equal signs (=), brackets (<,>), plus signs (+), commas (,), or exclamation points (!). Usernames must begin with alphanumeric characters and can end with non-alphanumeric characters.
+- Username must be at least 6 characters.
+- This username is already taken.
+- Username contains inappropriate words.
+- Username is available.
+- Change username:
+- Username updated successfully.
+
+## src/utils/translations/authSecretQuestions.ts
+- Secret question 1.
+- Secret question 2.
+- Select a question.
+- What is your mother's maiden name?
+- What was the name of your first pet?
+- What city were you born in?
+- What was the name of your elementary school?
+- What was the name of your favorite teacher?
+- What was the name of your childhood best friend?
+- What was the make of your first car?
+- What is your favorite book?
+- What was your childhood nickname?
+- What is your favorite food?
+- What street did you grow up on?
+- What is your father's middle name?
+- What was your high school mascot?
+- What was your first job?
+- What is your dream vacation destination?
+
+## src/utils/translations/authRegister.ts
+- Create account.
+- Creating account...
+- Registration successful.
+- Your account has been created.
+- Your account has been created. Welcome!
+- Join RoadSaver to get assistance with your problems on the road.
+- Please fill in all required fields.
+- Must be at least 8 characters with 1 uppercase letter.
+- Create account.
+- Join RoadSaver to get assistance with your problems on the road.
+- Enter your username.
+- Enter your email address.
+- +359.
+- Must be 13 characters starting with +359.
+- Man.
+- Woman.
+- Not specified.
+- Must be at least 8 characters with 1 uppercase letter.
+- Create a password.
+- Confirm your password.
+- Back to login.
+
+## src/utils/translations/authPhone.ts
+- Phone number.
+- +359XXXXXXXXX.
+- Must be 13 characters starting with +359.
+- Phone number error.
+- Phone number must be exactly 13 characters starting with +359.
+- Change phone number:
+- Phone number updated successfully.
+
+## src/utils/translations/authPassword.ts
+- Password.
+- Confirm password.
+- Password requirements:
+- At least 8 characters long.
+- At least one uppercase letter (A-Z).
+- At least one lowercase letter (a-z).
+- At least one number (0-9).
+- At least one special character.
+- (!@#$%^&*).
+- Passwords do not match.
+- Password is too weak.
+- Password strength:
+- Weak.
+- Medium.
+- Strong.
+
+## src/utils/translations/authLogin.ts
+- Sign in.
+- Signing in...
+- Back to login.
+- Invalid username or password.
+- Please enter both username and password.
+- Login successful.
+- Welcome to RoadSaver!
+- Welcome back.
+- Username.
+- Password.
+- Enter your username.
+- Enter your password.
+- Create account.
+- Dashboard for employees.
+- Sign in.
+- Welcome back to RoadSaver.
+- Username.
+- Password.
+- Welcome back to RoadSaver.
+
+## src/utils/translations/authGeneral.ts
+- Logged out.
+- You have been successfully logged out.
+- Authentication failed.
+- User account.
+- Road assistance services for every need.
+- Switch to Bulgarian.
+- Switch to English.
+- Error.
+- Change account information.
+- Save.
+- Update successful.
+- Optional.
+
+## src/utils/translations/authGender.ts
+- Gender.
+- Man.
+- Woman.
+- Not specified.
+
+## src/utils/translations/authEmail.ts
+- Email.
+- Enter your email address.
+- Please enter a valid email address.
+- This email is already registered.
+- Email contains inappropriate words.
+- Email address is valid.
+- Change email:
+- Email updated successfully.
+
+---
+
+All of these texts are used throughout the app's screens and components via the translation system. For the exact usage location in the UI, see the corresponding component or page that calls the translation key (e.g., `t('Cancel.')` in a button or dialog).
