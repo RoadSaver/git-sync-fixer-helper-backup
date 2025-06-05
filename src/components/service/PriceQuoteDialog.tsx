@@ -31,7 +31,7 @@ const PriceQuoteDialog: React.FC<PriceQuoteDialogProps> = ({
   onDecline,
   onCancelRequest,
   hasDeclinedOnce = false,
-  employeeName = 'Employee'
+  employeeName // do not default to 'Employee', always require prop
 }) => {
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [showDeclineConfirm, setShowDeclineConfirm] = useState(false);
@@ -52,12 +52,12 @@ const PriceQuoteDialog: React.FC<PriceQuoteDialogProps> = ({
   };
 
   const handleDecline = () => {
-    console.log('handleDecline called, hasDeclinedOnce:', hasDeclinedOnce);
+    // Always call onDecline with correct flag
     if (!hasDeclinedOnce) {
       setShowDeclineConfirm(true);
     } else {
-      // Second decline - trigger the new behavior
-      onDecline(true);
+      // Second decline - assign new employee, keep request active
+      onDecline(true); // This triggers the ServiceRequestLogic flow for new assignment
     }
   };
 
@@ -110,7 +110,6 @@ const PriceQuoteDialog: React.FC<PriceQuoteDialogProps> = ({
               {hasDeclinedOnce ? 'Revised Price Quote' : 'Price Quote Received'}
             </DialogTitle>
           </DialogHeader>
-          
           <PriceQuoteContent
             serviceType={serviceType}
             priceQuote={priceQuote}
@@ -122,7 +121,6 @@ const PriceQuoteDialog: React.FC<PriceQuoteDialogProps> = ({
           />
         </DialogContent>
       </Dialog>
-
       <DeclineConfirmDialog
         open={showDeclineConfirm}
         onOpenChange={setShowDeclineConfirm}
@@ -130,7 +128,6 @@ const PriceQuoteDialog: React.FC<PriceQuoteDialogProps> = ({
         onConfirm={confirmDecline}
         onCancel={() => setShowDeclineConfirm(false)}
       />
-
       <CancelConfirmDialog
         open={showCancelConfirm}
         onOpenChange={setShowCancelConfirm}

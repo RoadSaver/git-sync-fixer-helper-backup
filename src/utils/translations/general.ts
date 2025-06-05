@@ -33,168 +33,168 @@ export const generalTranslations: TranslationGroup = {
     bg: 'Потвърди'
   },
   'save': {
-    en: 'Save',
-    bg: 'Запази'
+    en: 'Save.',
+    bg: 'Запази.'
   },
   'edit': {
-    en: 'Edit',
-    bg: 'Редактирай'
+    en: 'Edit.',
+    bg: 'Редактирай.'
   },
   'delete': {
-    en: 'Delete',
-    bg: 'Изтрий'
+    en: 'Delete.',
+    bg: 'Изтрий.'
   },
   'close': {
-    en: 'Close',
-    bg: 'Затвори'
+    en: 'Close.',
+    bg: 'Затвори.'
   },
   'back': {
-    en: 'Back',
-    bg: 'Назад'
+    en: 'Back.',
+    bg: 'Назад.'
   },
   'next': {
-    en: 'Next',
-    bg: 'Напред'
+    en: 'Next.',
+    bg: 'Напред.'
   },
   'loading': {
     en: 'Loading...',
     bg: 'Зарежда...'
   },
   'error': {
-    en: 'Error',
-    bg: 'Грешка'
+    en: 'Error.',
+    bg: 'Грешка.'
   },
   'success': {
-    en: 'Success',
-    bg: 'Успех'
+    en: 'Success.',
+    bg: 'Успех.'
   },
   'warning': {
-    en: 'Warning',
-    bg: 'Предупреждение'
+    en: 'Warning.',
+    bg: 'Предупреждение.'
   },
   'info': {
-    en: 'Information',
-    bg: 'Информация'
+    en: 'Information.',
+    bg: 'Информация.'
   },
   'yes': {
-    en: 'Yes',
-    bg: 'Да'
+    en: 'Yes.',
+    bg: 'Да.'
   },
   'no': {
-    en: 'No',
-    bg: 'Не'
+    en: 'No.',
+    bg: 'Не.'
   },
   'ok': {
-    en: 'OK',
-    bg: 'ОК'
+    en: 'OK.',
+    bg: 'ОК.'
   },
   'continue': {
-    en: 'Continue',
-    bg: 'Продължи'
+    en: 'Continue.',
+    bg: 'Продължи.'
   },
   'skip': {
-    en: 'Skip',
-    bg: 'Прескочи'
+    en: 'Skip.',
+    bg: 'Прескочи.'
   },
   'retry': {
-    en: 'Retry',
-    bg: 'Опитай отново'
+    en: 'Retry.',
+    bg: 'Опитай отново.'
   },
   'refresh': {
-    en: 'Refresh',
-    bg: 'Обнови'
+    en: 'Refresh.',
+    bg: 'Обнови.'
   },
   'update': {
-    en: 'Update',
-    bg: 'Актуализирай'
+    en: 'Update.',
+    bg: 'Актуализирай.'
   },
   'upload': {
-    en: 'Upload',
-    bg: 'Качи'
+    en: 'Upload.',
+    bg: 'Качи.'
   },
   'download': {
-    en: 'Download',
-    bg: 'Свали'
+    en: 'Download.',
+    bg: 'Свали.'
   },
   'share': {
-    en: 'Share',
-    bg: 'Споделя'
+    en: 'Share.',
+    bg: 'Сподели.'
   },
   'copy': {
-    en: 'Copy',
-    bg: 'Копирай'
+    en: 'Copy.',
+    bg: 'Копирай.'
   },
   'paste': {
-    en: 'Paste',
-    bg: 'Постави'
+    en: 'Paste.',
+    bg: 'Постави.'
   },
   'cut': {
-    en: 'Cut',
-    bg: 'Изрежи'
+    en: 'Cut.',
+    bg: 'Изрежи.'
   },
   'select-all': {
-    en: 'Select All',
-    bg: 'Избери всички'
+    en: 'Select all.',
+    bg: 'Избери всички.'
   },
   'clear': {
-    en: 'Clear',
-    bg: 'Изчисти'
+    en: 'Clear.',
+    bg: 'Изчисти.'
   },
   'reset': {
-    en: 'Reset',
-    bg: 'Нулирай'
+    en: 'Reset.',
+    bg: 'Нулирай.'
   },
   'submit': {
-    en: 'Submit',
-    bg: 'Изпрати'
+    en: 'Submit.',
+    bg: 'Изпрати.'
   },
   'send': {
-    en: 'Send',
-    bg: 'Изпрати'
+    en: 'Send.',
+    bg: 'Изпрати.'
   },
   'receive': {
-    en: 'Receive',
-    bg: 'Получи'
+    en: 'Receive.',
+    bg: 'Получи.'
   },
   'connect': {
-    en: 'Connect',
-    bg: 'Свържи'
+    en: 'Connect.',
+    bg: 'Свържи.'
   },
   'disconnect': {
-    en: 'Disconnect',
-    bg: 'Прекъсни'
+    en: 'Disconnect.',
+    bg: 'Прекъсни.'
   },
   'online': {
-    en: 'Online',
-    bg: 'Онлайн'
+    en: 'Online.',
+    bg: 'Онлайн.'
   },
   'offline': {
-    en: 'Offline',
-    bg: 'Офлайн'
+    en: 'Offline.',
+    bg: 'Офлайн.'
   },
   'available': {
-    en: 'Available',
-    bg: 'Достъпен'
+    en: 'Available.',
+    bg: 'Достъпен.'
   },
   'unavailable': {
-    en: 'Unavailable',
-    bg: 'Недостъпен'
+    en: 'Unavailable.',
+    bg: 'Недостъпен.'
   },
   'enabled': {
-    en: 'Enabled',
-    bg: 'Включен'
+    en: 'Enabled.',
+    bg: 'Включен.'
   },
   'disabled': {
-    en: 'Disabled',
-    bg: 'Изключен'
+    en: 'Disabled.',
+    bg: 'Изключен.'
   },
   'active': {
-    en: 'Active',
-    bg: 'Активен'
+    en: 'Active.',
+    bg: 'Активен.'
   },
   'inactive': {
-    en: 'Inactive',
-    bg: 'Неактивен'
+    en: 'Inactive.',
+    bg: 'Неактивен.'
   },
   'completed': {
     en: 'Completed',

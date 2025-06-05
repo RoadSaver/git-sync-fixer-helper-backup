@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import ServiceRequest from '@/components/service/ServiceRequest';
@@ -95,7 +94,9 @@ const DashboardModals: React.FC<DashboardModalsProps> = ({
       {showLocationPicker && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-background rounded-lg shadow-lg p-4 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">{t('update-location')}</h2>
+            <h2 className="text-xl font-bold mb-4">
+              {t('update-location')}
+            </h2>
             <MapInput 
               onLocationSelect={onLocationChange} 
               initialLocation={userLocation} 

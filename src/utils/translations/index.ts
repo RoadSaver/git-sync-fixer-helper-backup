@@ -17,12 +17,20 @@ import { themeTranslations } from './theme';
 
 const mergeTranslations = (...translationObjects: any[]) => {
   const merged = { en: {}, bg: {} };
-  
   translationObjects.forEach(obj => {
-    Object.assign(merged.en, obj.en);
-    Object.assign(merged.bg, obj.bg);
+    // Support both {en: {...}, bg: {...}} and {key: {en: '', bg: ''}}
+    if (obj.en && obj.bg) {
+      Object.assign(merged.en, obj.en);
+      Object.assign(merged.bg, obj.bg);
+    } else {
+      Object.entries(obj).forEach(([key, value]: [string, any]) => {
+        if (value.en && value.bg) {
+          merged.en[key] = value.en;
+          merged.bg[key] = value.bg;
+        }
+      });
+    }
   });
-  
   return merged;
 };
 
@@ -45,8 +53,19 @@ const translations = mergeTranslations(
   themeTranslations
 );
 
+// Split translations into two groups: one for English, one for Bulgarian
+export const enTranslations = Object.fromEntries(
+  Object.entries(translations.en)
+);
+
+export const bgTranslations = Object.fromEntries(
+  Object.entries(translations.bg)
+);
+
 export const useTranslation = (language: 'en' | 'bg') => {
-  return (key: string) => {
-    return translations[language][key] || key;
+  return (key: string): string => {
+    if (language === 'en') return String(enTranslations[key] ?? key);
+    if (language === 'bg') return String(bgTranslations[key] ?? key);
+    return key;
   };
 };

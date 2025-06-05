@@ -1,4 +1,3 @@
-
 export const authSecretQuestions = {
   en: {
     'secret-question-1': 'Secret Question 1',
@@ -19,6 +18,11 @@ export const authSecretQuestions = {
     'high-school-mascot': 'What was your high school mascot?',
     'first-job': 'What was your first job?',
     'dream-vacation': 'What is your dream vacation destination?',
+    'your-answer': 'Your Answer',
+    'enter-your-answer': 'Enter your answer',
+    'create-your-own-question': 'Create your own question',
+    'back-to-questions': 'Back to questions',
+    'enter-your-custom-question': 'Enter your custom question',
   },
   bg: {
     'secret-question-1': 'Секретен въпрос 1',
@@ -39,5 +43,10 @@ export const authSecretQuestions = {
     'high-school-mascot': 'Какъв беше талисманът на гимназията ви?',
     'first-job': 'Каква беше първата ви работа?',
     'dream-vacation': 'Къде е мечтаната ви ваканционна дестинация?',
+    'your-answer': 'Вашият отговор',
+    'enter-your-answer': 'Въведете вашия отговор',
+    'create-your-own-question': 'Създайте свой въпрос',
+    'back-to-questions': 'Обратно към въпросите',
+    'enter-your-custom-question': 'Въведете вашия въпрос',
   },
 };

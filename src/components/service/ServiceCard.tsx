@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { useApp } from '@/contexts/AppContext';
@@ -16,7 +15,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   onClick
 }) => {
   const {
-    language
+    language,
+    editMode
   } = useApp();
   const t = useTranslation(language);
   const [showContactDialog, setShowContactDialog] = useState(false);
@@ -70,8 +70,12 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         
         {/* Text content with consistent spacing */}
         <div className="flex-1 flex flex-col justify-center text-center">
-          <h3 className="text-sm sm:text-lg font-semibold mb-1 leading-tight min-h-[1.5rem] sm:min-h-[2rem] flex items-center justify-center">{title}</h3>
-          <p className="text-xs sm:text-sm text-muted-foreground leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">{description}</p>
+          <h3 className="text-sm sm:text-lg font-semibold mb-1 leading-tight min-h-[1.5rem] sm:min-h-[2rem] flex items-center justify-center">
+            {title}
+          </h3>
+          <p className="text-xs sm:text-sm text-muted-foreground leading-tight min-h-[2rem] sm:min-h-[2.5rem] flex items-center justify-center">
+            {description}
+          </p>
         </div>
       </Card>
 

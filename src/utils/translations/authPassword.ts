@@ -1,4 +1,3 @@
-
 export const authPassword = {
   en: {
     'password': 'Password',
@@ -16,6 +15,9 @@ export const authPassword = {
     'weak': 'Weak',
     'medium': 'Medium',
     'strong': 'Strong',
+    'password-info-title': 'Password Requirements',
+    'password-info-content': 'Your password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+    'create-password-placeholder': 'Create a password',
   },
   bg: {
     'password': 'Парола',
@@ -33,5 +35,8 @@ export const authPassword = {
     'weak': 'Слаба',
     'medium': 'Средна',
     'strong': 'Силна',
+    'password-info-title': 'Изисквания за парола',
+    'password-info-content': 'Вашата парола трябва да е поне 8 символа и да съдържа поне една главна буква, една малка буква, една цифра и един специален символ.',
+    'create-password-placeholder': 'Създайте парола',
   },
 };

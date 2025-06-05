@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -24,18 +23,23 @@ interface SecretQuestionFieldProps {
   t: (key: string) => string;
 }
 
-const secretQuestions = [
-  'Where did you spend your honeymoon?',
-  'Where did you meet your spouse?',
-  'What is your oldest cousin\'s name?',
-  'What is your youngest child\'s nickname?',
-  'What is your oldest child\'s nickname?',
-  'What is the first name of your oldest niece?',
-  'What is the first name of your oldest nephew?',
-  'What is the first name of your favorite aunt?',
-  'What is the first name of your favorite uncle?',
-  'What town was your father born in?',
-  'What town was your mother born in?'
+// List of translation keys for secret questions (must match keys in authSecretQuestions.ts)
+const secretQuestionKeys = [
+  'mothers-maiden-name',
+  'first-pet-name',
+  'birth-city',
+  'elementary-school',
+  'favorite-teacher',
+  'childhood-friend',
+  'first-car',
+  'favorite-book',
+  'childhood-nickname',
+  'favorite-food',
+  'street-grew-up',
+  'fathers-middle-name',
+  'high-school-mascot',
+  'first-job',
+  'dream-vacation',
 ];
 
 const SecretQuestionField: React.FC<SecretQuestionFieldProps> = ({
@@ -70,9 +74,8 @@ const SecretQuestionField: React.FC<SecretQuestionFieldProps> = ({
     <div className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor={`secret-question-${questionNumber}`}>
-          {t('secret-question')} {questionNumber}:
+          {t(`secret-question-${questionNumber}`)}
         </Label>
-        
         {!isCustomSelected ? (
           <div className="relative">
             <Select value={selectedQuestion} onValueChange={onQuestionChange}>
@@ -80,9 +83,9 @@ const SecretQuestionField: React.FC<SecretQuestionFieldProps> = ({
                 <SelectValue placeholder={t('select-question')} />
               </SelectTrigger>
               <SelectContent className="bg-white border border-gray-200 shadow-lg z-50">
-                {secretQuestions.map((question, index) => (
-                  <SelectItem key={index} value={question} className="hover:bg-gray-100">
-                    {question}
+                {secretQuestionKeys.map((key) => (
+                  <SelectItem key={key} value={key} className="hover:bg-gray-100">
+                    {t(key)}
                   </SelectItem>
                 ))}
                 <SelectItem value="custom" className="hover:bg-gray-100">
@@ -125,10 +128,8 @@ const SecretQuestionField: React.FC<SecretQuestionFieldProps> = ({
             {customQuestionError && <p className="text-red-500 text-xs mt-1">{customQuestionError}</p>}
           </div>
         )}
-        
         {!isCustomSelected && questionError && <p className="text-red-500 text-xs mt-1">{questionError}</p>}
       </div>
-
       <RegisterFormFieldInput
         id={`secret-answer-${questionNumber}`}
         label={t('your-answer')}

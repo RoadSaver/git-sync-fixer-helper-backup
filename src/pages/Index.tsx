@@ -17,8 +17,6 @@ const Index = () => {
   const handleLanguageToggle = () => {
     const newLanguage = language === 'en' ? 'bg' : 'en';
     setLanguage(newLanguage);
-    console.log('Language changed to:', newLanguage);
-    console.log('Testing translation:', t('Road Assistance'));
   };
 
   return (
@@ -41,51 +39,48 @@ const Index = () => {
           </span>
         </div>
       </div>
-
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
+      <div className="w-full max-w-lg">
+        <div className="mb-8 text-center">
+          {/* DO NOT CHANGE THIS HEADING TO A TRANSLATION KEY UNLESS USER REQUESTS */}
           <h1 className="text-4xl font-bold mb-2">RoadSaver</h1>
-          <p className="text-muted-foreground">{t('app-subtitle')}</p>
+          <p className="text-lg text-muted-foreground mb-2">{t('app-subtitle')}</p>
         </div>
-        
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>{t('User App')}</CardTitle>
-              <CardDescription>{t('For Customers Needing Assistance')}</CardDescription>
+              <CardTitle>{t('user-app')}</CardTitle>
+              <CardDescription>{t('for-customers')}</CardDescription>
             </CardHeader>
             <CardContent>
               <Link to="/user">
                 <Button className="w-full bg-green-600 hover:bg-green-700">
-                  <User className="mr-2 h-5 w-5" /> {t('Open User App')}
+                  <User className="mr-2 h-5 w-5" /> {t('open-user-app')}
                 </Button>
               </Link>
             </CardContent>
           </Card>
-          
           <Card>
             <CardHeader>
-              <CardTitle>{t('Employee App')}</CardTitle>
-              <CardDescription>{t('For Service Providers')}</CardDescription>
+              <CardTitle>{t('employee-app')}</CardTitle>
+              <CardDescription>{t('for-service-providers')}</CardDescription>
             </CardHeader>
             <CardContent>
               <Link to="/employee">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                  <Car className="mr-2 h-5 w-5" /> {t('Open Employee App')}
+                  <Car className="mr-2 h-5 w-5" /> {t('open-employee-app')}
                 </Button>
               </Link>
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader>
-              <CardTitle>{t('RoadSaver Account Manager')}</CardTitle>
-              <CardDescription>{t('Manage User And Employee Accounts')}</CardDescription>
+              <CardTitle>{t('account-manager-title')}</CardTitle>
+              <CardDescription>{t('account-manager-desc')}</CardDescription>
             </CardHeader>
             <CardContent>
               <Link to="/admin">
                 <Button className="w-full bg-purple-600 hover:bg-purple-700">
-                  <Database className="mr-2 h-5 w-5" /> {t('Open Account Manager')}
+                  <Database className="mr-2 h-5 w-5" /> {t('open-account-manager')}
                 </Button>
               </Link>
             </CardContent>

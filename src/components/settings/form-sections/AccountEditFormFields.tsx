@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import AccountEditFormField from '../form-fields/AccountEditFormField';
@@ -16,10 +15,6 @@ const AccountEditFormFields: React.FC<AccountEditFormFieldsProps> = ({
   onClose,
 }) => {
   const {
-    newUsername,
-    setNewUsername,
-    isUsernameChanged,
-    
     newEmail,
     setNewEmail,
     isEmailChanged,
@@ -39,16 +34,6 @@ const AccountEditFormFields: React.FC<AccountEditFormFieldsProps> = ({
 
   return (
     <div className="space-y-4 mt-4">
-      <AccountEditFormField
-        id="usernameEdit"
-        label={t('change-username-colon')}
-        value={newUsername}
-        onChange={(e) => setNewUsername(e.target.value)}
-        onSave={() => handleSaveAttempt('username')}
-        isChanged={isUsernameChanged}
-        t={t}
-      />
-      
       <AccountEditFormField
         id="emailEdit"
         label={t('change-email-colon')}

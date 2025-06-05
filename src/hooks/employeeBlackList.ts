@@ -43,3 +43,13 @@ export async function fetchEmployeeList(): Promise<Employee[]> {
   }
   return data as Employee[];
 }
+
+// NOTE: This file is for real (non-simulated) employees only.
+// Do NOT use this file for simulated employee assignment or blacklisting.
+//
+// Simulated employee assignment, blacklisting, and Accept/Decline logic are handled via:
+//   - src/hooks/useEmployeeSimulation.ts (loads simulated employees from employee_simulation table)
+//   - src/hooks/employeeSimulationBlacklist.ts (blacklist for simulated employees)
+//   - src/components/service/hooks/useRequestSimulation.ts (simulated assignment/decline logic)
+//
+// If you need to update simulated employee logic, do so in those files, NOT here.

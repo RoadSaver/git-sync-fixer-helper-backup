@@ -55,6 +55,34 @@ export const authGeneralTranslations: TranslationGroup = {
   'optional-field': {
     en: 'optional',
     bg: 'незадължително'
+  },
+  'change-password-colon': {
+    en: 'Change password:',
+    bg: 'Промяна на парола:'
+  },
+  'new-password-placeholder': {
+    en: 'Enter new password',
+    bg: 'Въведете нова парола'
+  },
+  'account-information': {
+    en: 'Account Information',
+    bg: 'Информация за акаунта'
+  },
+  'current-password-prompt-title': {
+    en: 'Enter Current Password',
+    bg: 'Въведете текущата парола'
+  },
+  'current-password-prompt-desc': {
+    en: 'For security, please enter your current password to continue.',
+    bg: 'За сигурност, моля въведете текущата си парола, за да продължите.'
+  },
+  'enter-current-password': {
+    en: 'Enter your current password',
+    bg: 'Въведете текущата си парола'
+  },
+  'ongoing-requests': {
+    en: 'Ongoing Requests',
+    bg: 'Текущи заявки'
   }
 };
 

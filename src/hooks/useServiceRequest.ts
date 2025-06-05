@@ -8,8 +8,6 @@ import { useRequestSimulation } from './hooks/useRequestSimulation';
 import { useRequestActions } from './hooks/useRequestActions';
 import { usePriceQuoteSnapshot } from '@/hooks/usePriceQuoteSnapshot';
 import { UserHistoryService } from '@/services/userHistoryService';
-// --- Blacklist for simulated employees (in-memory, resets after request finishes) ---
-import { employeeSimulationBlacklist } from '@/hooks/employeeSimulationBlacklist';
 
 export const useServiceRequest = (
   type: ServiceType,
@@ -38,27 +36,11 @@ export const useServiceRequest = (
   const [declineReason, setDeclineReason] = useState('');
   const [currentEmployeeName, setCurrentEmployeeName] = useState<string>('');
   const [declinedEmployees, setDeclinedEmployees] = useState<string[]>([]);
-  const [hasDeclinedOnce, setHasDeclinedOnce] = useState(false);
-  const [employeeRevisionAttempts, setEmployeeRevisionAttempts] = useState<{[key: string]: number}>({});
-  // Add state for ETA
-  const [eta, setEta] = useState<string | null>(null);
-  const [sessionEmployeeBlacklist, setSessionEmployeeBlacklist] = useState<string[]>([]);
-
-  // Reset blacklist when a new request is started or finished
-  useEffect(() => {
-    if (!ongoingRequest) {
-      setSessionEmployeeBlacklist([]);
-    }
-  }, [ongoingRequest]);
-
-  // Helper to reset decline state for a new employee
-  const resetDeclineStateForEmployee = (employeeName: string) => {
-    setHasDeclinedOnce(false);
-    setEmployeeDeclineCount(prev => ({
-      ...prev,
-      [employeeName]: 0
-    }));
-  };
+  
+  // Track employee-specific decline counts - key is employee name, value is decline count
+  const [employeeDeclineCounts, setEmployeeDeclineCounts] = useState<{[employeeName: string]: number}>({});
+  const [estimatedArrivalTime, setEstimatedArrivalTime] = useState<string>('');
+  const [movementInterval, setMovementInterval] = useState<NodeJS.Timeout | null>(null);
 
   // Update local states when ongoing request changes
   useEffect(() => {
@@ -71,36 +53,46 @@ export const useServiceRequest = (
       }
       if (ongoingRequest.employeeName) {
         setCurrentEmployeeName(ongoingRequest.employeeName);
-        // Reset decline state for new employee
-        resetDeclineStateForEmployee(ongoingRequest.employeeName);
       }
       if (ongoingRequest.declinedEmployees) {
         setDeclinedEmployees(ongoingRequest.declinedEmployees);
       }
+      
       if (ongoingRequest.id) {
         loadSnapshot(ongoingRequest.id);
       }
     }
   }, [ongoingRequest, originalPriceQuote, loadSnapshot]);
 
-  // Helper to calculate ETA in HH:MM:SS
-  const calculateEta = (from: { lat: number; lng: number }, to: { lat: number; lng: number }) => {
-    const R = 6371; // km
-    const dLat = (to.lat - from.lat) * Math.PI / 180;
-    const dLng = (to.lng - from.lng) * Math.PI / 180;
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(from.lat * Math.PI / 180) * Math.cos(to.lat * Math.PI / 180) *
-      Math.sin(dLng/2) * Math.sin(dLng/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    const distance = R * c; // in km
-    const speed = 40; // km/h, assumed
-    const hours = distance / speed;
-    const totalSeconds = Math.max(1, Math.round(hours * 3600));
-    const h = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
-    const m = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, '0');
-    const s = (totalSeconds % 60).toString().padStart(2, '0');
-    return `${h}:${m}:${s}`;
+  // Clean up movement interval on unmount
+  useEffect(() => {
+    return () => {
+      if (movementInterval) {
+        clearInterval(movementInterval);
+      }
+    };
+  }, [movementInterval]);
+
+  const calculateETA = (employeeLat: number, employeeLng: number) => {
+    const distance = Math.sqrt(
+      Math.pow(userLocation.lat - employeeLat, 2) + 
+      Math.pow(userLocation.lng - employeeLng, 2)
+    );
+    
+    // Rough estimate: 1 degree ≈ 111km, average speed 30km/h in city
+    const distanceKm = distance * 111;
+    const timeHours = distanceKm / 30;
+    const timeMinutes = Math.max(5, Math.round(timeHours * 60)); // Minimum 5 minutes
+    
+    const now = new Date();
+    const arrival = new Date(now.getTime() + timeMinutes * 60000);
+    
+    // Format as HH:MM:SS
+    const hours = arrival.getHours().toString().padStart(2, '0');
+    const minutes = arrival.getMinutes().toString().padStart(2, '0');
+    const seconds = arrival.getSeconds().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes}:${seconds}`;
   };
 
   const handleSubmit = () => {
@@ -116,8 +108,8 @@ export const useServiceRequest = (
       
       // Reset tracking for new request
       setDeclinedEmployees([]);
-      setEmployeeRevisionAttempts({});
-      setHasDeclinedOnce(false);
+      setEmployeeDeclineCounts({});
+      setCurrentEmployeeName('');
       
       const newOngoingRequest = {
         id: requestId,
@@ -147,15 +139,14 @@ export const useServiceRequest = (
           setPriceQuote(quote);
           setOriginalPriceQuote(quote);
           
-          const employeeName = currentEmployeeName;
-          await storeSnapshot(requestId, type, quote, employeeName, false);
+          await storeSnapshot(requestId, type, quote, currentEmployeeName, false);
           
           setOngoingRequest(prev => {
             if (!prev) return null;
             return { 
               ...prev, 
               priceQuote: quote,
-              employeeName: employeeName
+              employeeName: currentEmployeeName
             };
           });
         },
@@ -171,7 +162,9 @@ export const useServiceRequest = (
             ...prev, 
             employeeName: employeeName 
           } : null);
-          setHasDeclinedOnce(false);
+          
+          // Initialize decline count for new employee
+          setEmployeeDeclineCounts(prev => ({ ...prev, [employeeName]: 0 }));
         },
         []
       );
@@ -230,6 +223,12 @@ export const useServiceRequest = (
         await moveToFinished(ongoingRequest.id, 'emp-' + currentEmployeeName, currentEmployeeName);
       }
       
+      // Clean up movement interval
+      if (movementInterval) {
+        clearInterval(movementInterval);
+        setMovementInterval(null);
+      }
+      
       // Clear ongoing request and close dialog
       setOngoingRequest(null);
       setShowRealTimeUpdate(false);
@@ -241,62 +240,69 @@ export const useServiceRequest = (
     }, Math.random() * 30000 + 30000); // 30-60 seconds
   };
 
-  // --- EMPLOYEE MOVEMENT ---
-  // Simulate employee movement toward user after quote is accepted
   const simulateEmployeeMovement = () => {
-    let intervalId: NodeJS.Timeout;
-    let timeoutId: NodeJS.Timeout;
+    if (!employeeLocation) {
+      // Set initial employee location (random nearby location)
+      const initialLat = userLocation.lat + (Math.random() - 0.5) * 0.02;
+      const initialLng = userLocation.lng + (Math.random() - 0.5) * 0.02;
+      const initialLocation = { lat: initialLat, lng: initialLng };
+      setEmployeeLocation(initialLocation);
+      setEstimatedArrivalTime(calculateETA(initialLat, initialLng));
+    }
 
-    setEmployeeLocation(prev => {
-      if (!prev) {
-        // Set initial employee location (random nearby location)
-        const initialLat = userLocation.lat + (Math.random() - 0.5) * 0.02;
-        const initialLng = userLocation.lng + (Math.random() - 0.5) * 0.02;
-        setEta(calculateEta({ lat: initialLat, lng: initialLng }, userLocation));
-        return { lat: initialLat, lng: initialLng };
-      }
-      setEta(calculateEta(prev, userLocation));
-      return prev;
-    });
+    // Clear any existing interval
+    if (movementInterval) {
+      clearInterval(movementInterval);
+    }
 
-    intervalId = setInterval(() => {
+    // Simulate movement towards user every 3 seconds
+    const interval = setInterval(() => {
       setEmployeeLocation(prev => {
         if (!prev) return prev;
+        
         const deltaLat = userLocation.lat - prev.lat;
         const deltaLng = userLocation.lng - prev.lng;
         const distance = Math.sqrt(deltaLat * deltaLat + deltaLng * deltaLng);
+        
         // If close enough, stop moving
-        if (distance < 0.0005) {
-          clearInterval(intervalId);
-          setEta('00:00:00');
-          return { ...userLocation };
+        if (distance < 0.001) {
+          setEstimatedArrivalTime('00:00:00');
+          return userLocation;
         }
-        // Move 10% closer each time
-        const next = {
-          lat: prev.lat + deltaLat * 0.1,
-          lng: prev.lng + deltaLng * 0.1
+        
+        // Move 15% closer each time for smoother movement
+        const newLocation = {
+          lat: prev.lat + deltaLat * 0.15,
+          lng: prev.lng + deltaLng * 0.15
         };
-        setEta(calculateEta(next, userLocation));
-        return next;
+        
+        // Update ETA
+        setEstimatedArrivalTime(calculateETA(newLocation.lat, newLocation.lng));
+        
+        return newLocation;
       });
-    }, 2000); // update every 2 seconds for smoother movement
+    }, 3000);
 
-    timeoutId = setTimeout(() => clearInterval(intervalId), 60000);
+    setMovementInterval(interval);
+
+    // Clear interval after 60 seconds to prevent infinite movement
+    setTimeout(() => {
+      clearInterval(interval);
+      setMovementInterval(null);
+    }, 60000);
   };
   
-  // Track declines per employee
-  const [employeeDeclineCount, setEmployeeDeclineCount] = useState<{ [employee: string]: number }>({});
-
   const handleDeclineQuote = async (isSecondDecline: boolean = false) => {
     if (!user) return;
-    const declines = (employeeDeclineCount[currentEmployeeName] || 0) + 1;
-    setEmployeeDeclineCount(prev => ({
-      ...prev,
-      [currentEmployeeName]: declines
-    }));
-    if (declines >= 2 || isSecondDecline || hasDeclinedOnce) {
-      // Add to blacklist in state (deduped)
-      setSessionEmployeeBlacklist(prev => Array.from(new Set([...prev, currentEmployeeName])));
+    
+    const currentDeclineCount = employeeDeclineCounts[currentEmployeeName] || 0;
+    console.log(`Declining quote for ${currentEmployeeName}, current decline count: ${currentDeclineCount}, isSecondDecline: ${isSecondDecline}`);
+    
+    if (isSecondDecline || currentDeclineCount >= 1) {
+      // This is the final decline for this employee - find new employee
+      console.log('Final decline, finding new employee');
+      
+      // Add declined request to history
       await UserHistoryService.addHistoryEntry({
         user_id: user.username,
         username: user.username,
@@ -310,71 +316,97 @@ export const useServiceRequest = (
         longitude: userLocation.lng,
         decline_reason: 'User declined quote twice'
       });
+      
+      // Add current employee to declined list
       const updatedDeclinedEmployees = [...declinedEmployees, currentEmployeeName];
       setDeclinedEmployees(updatedDeclinedEmployees);
-      setHasDeclinedOnce(false);
-      setEmployeeDeclineCount(prev => ({
-        ...prev,
-        [currentEmployeeName]: 0
-      }));
+      
+      // Reset states for new employee search
       setShowPriceQuote(false);
       setShowRealTimeUpdate(true);
       setStatus('pending');
+      setPriceQuote(0);
+      setCurrentEmployeeName('');
+      
       const updatedRequest = {
         ...ongoingRequest,
         declinedEmployees: updatedDeclinedEmployees,
         status: 'pending' as const,
+        priceQuote: undefined,
         employeeName: undefined
       };
       setOngoingRequest(updatedRequest);
+      
       toast({
         title: "Quote Declined",
         description: "Looking for another available employee..."
       });
+      
+      // Simulate new employee response
       setTimeout(() => {
         const requestId = Date.now().toString();
         const timestamp = new Date().toISOString();
-        // Always use the latest blacklist
+        
         simulateEmployeeResponse(
           requestId,
           timestamp,
           type,
           userLocation,
-          // Do not change price quote here
-          () => {},
-          (show) => setShowPriceQuote(show),
+          (quote: number) => {
+            console.log('New employee quote:', quote);
+            setPriceQuote(quote);
+            setOriginalPriceQuote(quote);
+            setOngoingRequest(prev => {
+              if (!prev) return null;
+              return { 
+                ...prev, 
+                priceQuote: quote 
+              };
+            });
+          },
+          setShowPriceQuote,
           setShowRealTimeUpdate,
           setStatus,
           setDeclineReason,
           setEmployeeLocation,
           (employeeName: string) => {
+            console.log('New employee assigned:', employeeName);
             setCurrentEmployeeName(employeeName);
-            setOngoingRequest(prev => prev ? {
-              ...prev,
-              employeeName: employeeName
+            setOngoingRequest(prev => prev ? { 
+              ...prev, 
+              employeeName: employeeName 
             } : null);
-            resetDeclineStateForEmployee(employeeName);
-            setTimeout(() => {
-              setShowPriceQuote(true);
-            }, 100);
+            
+            // Initialize decline count for new employee
+            setEmployeeDeclineCounts(prev => ({ ...prev, [employeeName]: 0 }));
           },
-          [...sessionEmployeeBlacklist, currentEmployeeName] // always up-to-date
+          updatedDeclinedEmployees
         );
       }, 2000);
     } else {
-      setHasDeclinedOnce(true);
+      // First decline - employee gets one chance to revise
+      console.log('First decline, employee will send revised quote');
+      
+      const newDeclineCount = currentDeclineCount + 1;
+      setEmployeeDeclineCounts(prev => ({ 
+        ...prev, 
+        [currentEmployeeName]: newDeclineCount 
+      }));
+      
       toast({
         title: "Quote Declined",
         description: `${currentEmployeeName} will send you a revised quote.`
       });
+      
+      // Simulate employee sending revised quote
       setTimeout(() => {
-        // Only change price on decline
-        const revisedQuote = Math.max(10, priceQuote - Math.floor(Math.random() * 15) - 5);
+        const revisedQuote = Math.max(10, originalPriceQuote - Math.floor(Math.random() * 15) - 5);
         setPriceQuote(revisedQuote);
-        setOngoingRequest(prev => prev ? {
-          ...prev,
-          priceQuote: revisedQuote
+        setOngoingRequest(prev => prev ? { 
+          ...prev, 
+          priceQuote: revisedQuote 
         } : null);
+        
         toast({
           title: "Revised Quote Received",
           description: `${currentEmployeeName} sent a revised quote of ${revisedQuote} BGN.`
@@ -383,17 +415,16 @@ export const useServiceRequest = (
     }
   };
   
-  const handleCancelRequest = () => {
-    // Reset blacklist if request is cancelled
-    setSessionEmployeeBlacklist([]);
-    cancelRequest(setShowPriceQuote);
-  };
+  const handleCancelRequest = () => cancelRequest(setShowPriceQuote);
 
   const showStoredPriceQuote = () => {
     if (storedSnapshot) {
       setShowPriceQuote(true);
     }
   };
+
+  // Calculate hasDeclinedOnce based on employee decline count
+  const hasDeclinedOnce = (employeeDeclineCounts[currentEmployeeName] || 0) >= 1;
 
   return {
     message,
@@ -402,14 +433,14 @@ export const useServiceRequest = (
     showRealTimeUpdate,
     showPriceQuote,
     setShowPriceQuote,
-    priceQuote: originalPriceQuote > 0 ? originalPriceQuote : (ongoingRequest?.priceQuote ?? priceQuote),
+    priceQuote: ongoingRequest?.priceQuote ?? priceQuote,
     employeeLocation,
     status,
     declineReason,
     currentEmployeeName: ongoingRequest?.employeeName || currentEmployeeName,
     declinedEmployees,
     hasDeclinedOnce,
-    eta,
+    estimatedArrivalTime,
     handleSubmit,
     handleAcceptQuote,
     handleDeclineQuote,

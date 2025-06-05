@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from '@/components/auth/LoginForm';
@@ -47,8 +46,9 @@ const EmployeeAuth: React.FC = () => {
 
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2">RoadSaver</h1>
-          <p className="text-muted-foreground">{t("employee-dashboard")}</p>
+          {/* DO NOT CHANGE THIS HEADING TO A TRANSLATION KEY UNLESS USER REQUESTS */}
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2">RoadSaver Employee</h1>
+          <p className="text-muted-foreground">{t('employee-dashboard')}</p>
         </div>
         
         <LoginForm 
@@ -61,3 +61,5 @@ const EmployeeAuth: React.FC = () => {
 };
 
 export default EmployeeAuth;
+
+

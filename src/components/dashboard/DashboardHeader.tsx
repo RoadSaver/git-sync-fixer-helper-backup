@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Settings, MapPin, Globe, Siren, Clock } from 'lucide-react';
+
 interface DashboardHeaderProps {
   language: 'en' | 'bg';
   t: (key: string) => string;
@@ -10,6 +11,7 @@ interface DashboardHeaderProps {
   onLanguageToggle: () => void;
   onOngoingRequestsClick: () => void;
 }
+
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   language,
   t,
@@ -19,6 +21,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   onLanguageToggle,
   onOngoingRequestsClick
 }) => {
+  const editMode = false; // This should be replaced with actual edit mode state
+
   return <>
       {/* Header */}
       <header className="bg-green-600 text-white p-3 sm:p-4 flex justify-between items-center sticky top-0 z-10">
@@ -47,7 +51,9 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       {/* Main Content */}
       <main className="container max-w-md mx-auto px-4 py-4 sm:py-6">
         <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <h2 className="text-xl sm:text-2xl font-bold">{t('services')}</h2>
+          <h2 className="text-xl sm:text-2xl font-bold">
+            {t('services')}
+          </h2>
           <Button variant="outline" size="sm" onClick={onOngoingRequestsClick} className="text-xs font-normal sm:text-base">
             <Clock className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
             {t('Ongoing Requests')}
@@ -56,4 +62,5 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       </main>
     </>;
 };
+
 export default DashboardHeader;

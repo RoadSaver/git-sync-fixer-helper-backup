@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   AlertDialog,
@@ -26,7 +25,9 @@ const ExitConfirmDialog: React.FC<ExitConfirmDialogProps> = ({
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Do you want to exit?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Do you want to exit?
+          </AlertDialogTitle>
           <AlertDialogDescription>
             If you do, press the Log Out button.
           </AlertDialogDescription>

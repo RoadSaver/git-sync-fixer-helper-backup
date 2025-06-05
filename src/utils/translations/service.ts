@@ -13,51 +13,51 @@ interface TranslationGroup {
 export const serviceTranslations: TranslationGroup = {
   'flat-tyre': {
     en: 'Flat Tyre',
-    bg: 'Спукана гума'
+    bg: 'Спукана Гума'
   },
   'flat-tyre-desc': {
-    en: 'Get help changing a flat tyre',
+    en: 'Get help changing a flat tyre.',
     bg: 'Получете помощ за смяна на спукана гума.'
   },
   'out-of-fuel': {
     en: 'Out of Fuel',
-    bg: 'Без гориво'
+    bg: 'Без Гориво'
   },
   'out-of-fuel-desc': {
-    en: 'Request fuel delivery',
-    bg: 'Заявете доставка на гориво'
+    en: 'Request fuel delivery.',
+    bg: 'Заявете доставка на гориво.'
   },
   'car-battery': {
-    en: 'Car Battery',
-    bg: 'Акумулатор'
+    en: 'Car Battery Issues/ Starting Issues',
+    bg: 'Проблеми С Акумулатора/Проблеми Със Запалването'
   },
   'car-battery-desc': {
-    en: 'Get help with your car battery issues',
-    bg: 'Получете помощ при проблеми с акумулатора'
+    en: 'Get help with your car battery issues or vehicle starting problems.',
+    bg: 'Получете помощ при проблеми с акумулатора,или ако колата ви не може да запали.'
   },
   'other-car-problems': {
     en: 'Other Car Problems',
     bg: 'Други проблеми с колата'
   },
   'other-car-problems-desc': {
-    en: 'Get help with various car problems',
-    bg: 'Получете помощ при различни проблеми с автомобила'
+    en: 'Get help with various car problems.',
+    bg: 'Получете помощ при различни проблеми с автомобила.'
   },
   'tow-truck': {
     en: 'Tow Truck',
-    bg: 'Пътна помощ'
+    bg: 'Пътна Помощ(Репатрак)'
   },
   'tow-truck-desc': {
     en: 'Request towing service',
-    bg: 'Заявете услуга по теглене'
+    bg: 'Заявете пътна помощ(репатрак).'
   },
   'support': {
     en: 'Contact Support',
-    bg: 'Свържете се с поддръжката'
+    bg: 'Свържете Се С Поддръжката'
   },
   'support-desc': {
-    en: 'Speak with our support team',
-    bg: 'Говорете с нашия екип за поддръжка'
+    en: 'Speak with our support team or sendus an email..',
+    bg: 'Говорете с нашия екип за поддръжка или ни изпратете имейл.'
   },
   'service': {
     en: 'Service',

@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { useTranslation } from '@/utils/translations';
@@ -47,6 +46,8 @@ interface AppContextType {
   logout: () => void;
   setLanguage: (language: 'en' | 'bg') => void;
   setUserLocation: (location: { lat: number; lng: number }) => void;
+  editMode: boolean;
+  setEditMode: (editMode: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -60,6 +61,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [userLocation, setUserLocationState] = useState(defaultLocation);
   const [ongoingRequest, setOngoingRequestState] = useState<OngoingRequest | null>(null);
   const [requestHistory, setRequestHistory] = useState<CompletedRequest[]>([]);
+  const [editMode, setEditMode] = useState(false);
   
   // Try to get user location on initial load
   useEffect(() => {
@@ -123,7 +125,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     login,
     logout,
     setLanguage,
-    setUserLocation
+    setUserLocation,
+    editMode,
+    setEditMode
   };
   
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

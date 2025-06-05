@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from '@/utils/translations';
 import { useApp } from '@/contexts/AppContext';
@@ -41,7 +40,7 @@ const PriceQuoteContent: React.FC<PriceQuoteContentProps> = ({
       
       <div className="rounded-md bg-green-50 dark:bg-green-900/20 p-3">
         <h3 className="font-medium mb-2">
-          Price Quote from: {employeeName || 'Employee'}
+          Price Quote from: {employeeName ? employeeName : <span className="text-red-500">Unknown</span>}
         </h3>
         <PriceBreakdown
           priceQuote={priceQuote}
@@ -53,7 +52,7 @@ const PriceQuoteContent: React.FC<PriceQuoteContentProps> = ({
       {hasDeclinedOnce && (
         <div className="rounded-md bg-blue-50 dark:bg-blue-900/20 p-3">
           <p className="text-sm text-blue-700 dark:text-blue-300">
-            This is a revised quote from {employeeName || 'the employee'} based on your previous decline.
+            This is a revised quote from {employeeName ? employeeName : <span className="text-red-500">Unknown</span>} based on your previous decline.
           </p>
         </div>
       )}
