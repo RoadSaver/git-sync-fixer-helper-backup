@@ -81,4 +81,20 @@ export const uiTranslations: TranslationGroup = {
     en: 'Yes, cancel.',
     bg: 'Да, отмени'
   },
+  'info-icon-username-title': {
+    en: 'Username Requirements',
+    bg: 'Изисквания за потребителско име'
+  },
+  'info-icon-username-content': {
+    en: 'Usernames must be 6-20 characters, lowercase, and cannot contain spaces or offensive words.',
+    bg: 'Потребителските имена трябва да са между 6 и 20 символа, с малки букви и без интервали или обидни думи.'
+  },
+  'info-icon-password-title': {
+    en: 'Password Requirements',
+    bg: 'Изисквания за парола'
+  },
+  'info-icon-password-content': {
+    en: 'Passwords must be at least 8 characters, include uppercase, lowercase, a number, a special character, and not contain forbidden words.',
+    bg: 'Паролите трябва да са поне 8 символа, да съдържат главна и малка буква, цифра, специален символ и да не съдържат забранени думи.'
+  },
 };
