@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,13 +9,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useApp } from '@/contexts/AppContext';
+import { useTranslation } from '@/utils/translations';
 
 interface InfoIconProps {
-  title: string;
-  content: string;
+  titleKey: string;
+  contentKey: string;
+  contentValues?: Record<string, string | number>;
 }
 
-const InfoIcon: React.FC<InfoIconProps> = ({ title, content }) => {
+const InfoIcon: React.FC<InfoIconProps> = ({ titleKey, contentKey, contentValues }) => {
+  const { language } = useApp();
+  const t = useTranslation(language);
+  let content = t(contentKey);
+  if (contentValues) {
+    Object.entries(contentValues).forEach(([key, value]) => {
+      content = content.replace(new RegExp(`{${key}}`, 'g'), String(value));
+    });
+  }
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -26,7 +36,7 @@ const InfoIcon: React.FC<InfoIconProps> = ({ title, content }) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle>{t(titleKey)}</DialogTitle>
           <DialogDescription className="whitespace-pre-line">
             {content}
           </DialogDescription>
