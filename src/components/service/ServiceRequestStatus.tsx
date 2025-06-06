@@ -120,13 +120,10 @@ const ServiceRequestStatus: React.FC<ServiceRequestStatusProps> = ({
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
             <span>Your location</span>
           </div>
-          {/* Show employee location legend when there's an employee location */}
-          {employeeLocation && (
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-              <span>Employee location</span>
-            </div>
-          )}
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+            <span>Employee location</span>
+          </div>
           {/* Show ETA if available */}
           {employeeLocation && eta && (
             <div className="flex items-center gap-2">

@@ -17,10 +17,9 @@ export const useServiceRequest = (
 ) => {
   const { setOngoingRequest, ongoingRequest, user } = useApp();
   const { validateMessage } = useServiceValidation();
-  const { simulateEmployeeResponse } = useRequestSimulation();
+  const { simulateEmployeeResponse, handleDecline, handleAccept } = useRequestSimulation();
   const {
     handleAcceptQuote: acceptQuote,
-    handleDeclineQuote: declineQuote,
     handleCancelRequest: cancelRequest,
     handleContactSupport
   } = useRequestActions();
@@ -37,10 +36,11 @@ export const useServiceRequest = (
   const [status, setStatus] = useState<'pending' | 'accepted' | 'declined'>('pending');
   const [declineReason, setDeclineReason] = useState('');
   const [currentEmployeeName, setCurrentEmployeeName] = useState<string>('');
-  const [declinedEmployees, setDeclinedEmployees] = useState<string[]>([]);
   const [hasDeclinedOnce, setHasDeclinedOnce] = useState(false);
-  const [employeeRevisionAttempts, setEmployeeRevisionAttempts] = useState<{[key: string]: number}>({});
-  // Add state for ETA
+  // Track decline count per employee per request
+  const [employeeDeclineCounts, setEmployeeDeclineCounts] = useState<{ [employee: string]: number }>({});
+  // Add state for employee movement and ETA
+  const [employeeMovingLocation, setEmployeeMovingLocation] = useState<{ lat: number; lng: number } | undefined>(undefined);
   const [eta, setEta] = useState<string | null>(null);
   const [sessionEmployeeBlacklist, setSessionEmployeeBlacklist] = useState<string[]>([]);
 
@@ -50,15 +50,6 @@ export const useServiceRequest = (
       setSessionEmployeeBlacklist([]);
     }
   }, [ongoingRequest]);
-
-  // Helper to reset decline state for a new employee
-  const resetDeclineStateForEmployee = (employeeName: string) => {
-    setHasDeclinedOnce(false);
-    setEmployeeDeclineCount(prev => ({
-      ...prev,
-      [employeeName]: 0
-    }));
-  };
 
   // Update local states when ongoing request changes
   useEffect(() => {
@@ -71,11 +62,6 @@ export const useServiceRequest = (
       }
       if (ongoingRequest.employeeName) {
         setCurrentEmployeeName(ongoingRequest.employeeName);
-        // Reset decline state for new employee
-        resetDeclineStateForEmployee(ongoingRequest.employeeName);
-      }
-      if (ongoingRequest.declinedEmployees) {
-        setDeclinedEmployees(ongoingRequest.declinedEmployees);
       }
       if (ongoingRequest.id) {
         loadSnapshot(ongoingRequest.id);
@@ -114,11 +100,7 @@ export const useServiceRequest = (
       const requestId = Date.now().toString();
       const timestamp = new Date().toISOString();
       
-      // Reset tracking for new request
-      setDeclinedEmployees([]);
-      setEmployeeRevisionAttempts({});
       setHasDeclinedOnce(false);
-      
       const newOngoingRequest = {
         id: requestId,
         type,
@@ -131,33 +113,30 @@ export const useServiceRequest = (
       setOngoingRequest(newOngoingRequest);
       setStatus('pending');
       setIsSubmitting(false);
-      setShowRealTimeUpdate(true);
+      setShowRealTimeUpdate(false); // Do not show the intermediate status screen
       toast({
         title: "Request Sent",
         description: "Your request has been sent to our team."
       });
-      
       simulateEmployeeResponse(
         requestId,
         timestamp,
         type,
         userLocation,
         async (quote: number) => {
-          console.log('Employee sent quote:', quote);
           setPriceQuote(quote);
           setOriginalPriceQuote(quote);
-          
           const employeeName = currentEmployeeName;
           await storeSnapshot(requestId, type, quote, employeeName, false);
-          
           setOngoingRequest(prev => {
             if (!prev) return null;
-            return { 
-              ...prev, 
+            return {
+              ...prev,
               priceQuote: quote,
               employeeName: employeeName
             };
           });
+          setShowPriceQuote(true); // Show price quote dialog immediately
         },
         setShowPriceQuote,
         setShowRealTimeUpdate,
@@ -165,12 +144,29 @@ export const useServiceRequest = (
         setDeclineReason,
         setEmployeeLocation,
         (employeeName: string) => {
-          console.log('Employee assigned:', employeeName);
-          setCurrentEmployeeName(employeeName);
-          setOngoingRequest(prev => prev ? { 
-            ...prev, 
-            employeeName: employeeName 
-          } : null);
+          // Only assign valid employee names from Supabase
+          if (employeeName && employeeName !== 'Unknown') {
+            setCurrentEmployeeName(employeeName);
+            setOngoingRequest(prev => prev ? {
+              ...prev,
+              employeeName: employeeName
+            } : null);
+          } else {
+            setCurrentEmployeeName('');
+            setOngoingRequest(prev => prev ? {
+              ...prev,
+              employeeName: ''
+            } : null);
+            setShowPriceQuote(false);
+            setShowRealTimeUpdate(false);
+            setStatus('declined');
+            setDeclineReason('No available employees. Please try again later.');
+            toast({
+              title: "No employees available",
+              description: "All employees are currently busy. Please try again later.",
+              variant: "destructive"
+            });
+          }
           setHasDeclinedOnce(false);
         },
         []
@@ -180,65 +176,49 @@ export const useServiceRequest = (
 
   const handleAcceptQuote = async () => {
     if (!user || !ongoingRequest) return;
-    
-    // Start employee movement simulation
-    simulateEmployeeMovement();
-    
-    // Close the price quote dialog and show real-time update
+    // Start ETA and completion simulation using handleAccept
+    handleAccept(
+      ongoingRequest.id,
+      ongoingRequest.priceQuote || priceQuote,
+      currentEmployeeName,
+      user.username,
+      userLocation,
+      // Simulate employee starting from a random nearby location
+      {
+        lat: userLocation.lat + (Math.random() - 0.5) * 0.02,
+        lng: userLocation.lng + (Math.random() - 0.5) * 0.02
+      },
+      15, // ETA in seconds (example: 15s)
+      (remaining) => {
+        setEta(remaining > 0 ? `00:00:${remaining.toString().padStart(2, '0')}` : '00:00:00');
+      },
+      (loc) => {
+        setEmployeeMovingLocation(loc);
+      },
+      () => {
+        // On completion, show toast and update state
+        toast({
+          title: "Service Completed",
+          description: `Your ${type} service has been completed successfully.`
+        });
+        setOngoingRequest(null);
+        setShowRealTimeUpdate(false);
+        setEmployeeMovingLocation(undefined);
+        setEta(null);
+      },
+      () => {
+        // On windows close, can be used to close dialogs if needed
+      }
+    );
+    // UI state for accepted
     setShowPriceQuote(false);
     setShowRealTimeUpdate(true);
     setStatus('accepted');
-    
-    // Update ongoing request
-    setOngoingRequest(prev => prev ? { 
-      ...prev, 
-      status: 'accepted' as const 
-    } : null);
-    
+    setOngoingRequest(prev => prev ? { ...prev, status: 'accepted' as const } : null);
     toast({
       title: "Quote Accepted",
       description: `${currentEmployeeName} is on the way to your location.`
     });
-    
-    // Simulate service completion after 30-60 seconds
-    setTimeout(async () => {
-      const serviceFee = 5;
-      const totalPrice = (ongoingRequest.priceQuote || priceQuote) + serviceFee;
-      
-      // Add to user history
-      await UserHistoryService.addHistoryEntry({
-        user_id: user.username,
-        username: user.username,
-        service_type: type,
-        status: 'completed',
-        employee_name: currentEmployeeName,
-        price_paid: ongoingRequest.priceQuote || priceQuote,
-        service_fee: serviceFee,
-        total_price: totalPrice,
-        request_date: new Date().toISOString(),
-        completion_date: new Date().toISOString(),
-        address_street: 'Sofia Center, Bulgaria',
-        latitude: userLocation.lat,
-        longitude: userLocation.lng
-      });
-      
-      // Clean up old history
-      await UserHistoryService.cleanupOldHistory(user.username, user.username);
-      
-      // Move to finished requests
-      if (ongoingRequest.id) {
-        await moveToFinished(ongoingRequest.id, 'emp-' + currentEmployeeName, currentEmployeeName);
-      }
-      
-      // Clear ongoing request and close dialog
-      setOngoingRequest(null);
-      setShowRealTimeUpdate(false);
-      
-      toast({
-        title: "Service Completed",
-        description: `Your ${type} service has been completed successfully.`
-      });
-    }, Math.random() * 30000 + 30000); // 30-60 seconds
   };
 
   // --- EMPLOYEE MOVEMENT ---
@@ -310,8 +290,6 @@ export const useServiceRequest = (
         longitude: userLocation.lng,
         decline_reason: 'User declined quote twice'
       });
-      const updatedDeclinedEmployees = [...declinedEmployees, currentEmployeeName];
-      setDeclinedEmployees(updatedDeclinedEmployees);
       setHasDeclinedOnce(false);
       setEmployeeDeclineCount(prev => ({
         ...prev,
@@ -322,7 +300,6 @@ export const useServiceRequest = (
       setStatus('pending');
       const updatedRequest = {
         ...ongoingRequest,
-        declinedEmployees: updatedDeclinedEmployees,
         status: 'pending' as const,
         employeeName: undefined
       };
@@ -353,7 +330,6 @@ export const useServiceRequest = (
               ...prev,
               employeeName: employeeName
             } : null);
-            resetDeclineStateForEmployee(employeeName);
             setTimeout(() => {
               setShowPriceQuote(true);
             }, 100);
@@ -407,7 +383,6 @@ export const useServiceRequest = (
     status,
     declineReason,
     currentEmployeeName: ongoingRequest?.employeeName || currentEmployeeName,
-    declinedEmployees,
     hasDeclinedOnce,
     eta,
     handleSubmit,

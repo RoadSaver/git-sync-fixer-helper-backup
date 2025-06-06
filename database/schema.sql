@@ -1,4 +1,3 @@
-
 -- Create the price_quote_snapshots table
 CREATE TABLE IF NOT EXISTS price_quote_snapshots (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -33,6 +32,46 @@ CREATE TABLE IF NOT EXISTS employee_finished_requests (
   request_id TEXT NOT NULL,
   snapshot_id UUID REFERENCES price_quote_snapshots(id),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Supabase local copy schema for RoadSaver app
+
+-- user_history table
+CREATE TABLE IF NOT EXISTS user_history (
+  id SERIAL PRIMARY KEY,
+  request_id TEXT NOT NULL,
+  date TEXT NOT NULL,
+  time TEXT NOT NULL,
+  accepted_price DECIMAL NOT NULL,
+  employee_name TEXT NOT NULL,
+  location TEXT NOT NULL,
+  completed_at TIMESTAMPTZ NOT NULL
+);
+
+-- simulated_employee_history table
+CREATE TABLE IF NOT EXISTS simulated_employee_history (
+  id SERIAL PRIMARY KEY,
+  request_id TEXT NOT NULL,
+  date TEXT NOT NULL,
+  time TEXT NOT NULL,
+  accepted_price DECIMAL NOT NULL,
+  user_name TEXT NOT NULL,
+  location TEXT NOT NULL,
+  completed_at TIMESTAMPTZ NOT NULL
+);
+
+-- employee_simulation table (for available employees)
+CREATE TABLE IF NOT EXISTS employee_simulation (
+  id SERIAL PRIMARY KEY,
+  full_name TEXT NOT NULL,
+  location_lat DECIMAL,
+  location_lng DECIMAL
+);
+
+-- users table (for user info)
+CREATE TABLE IF NOT EXISTS users (
+  id TEXT PRIMARY KEY,
+  username TEXT NOT NULL
 );
 
 -- Create indexes for better performance

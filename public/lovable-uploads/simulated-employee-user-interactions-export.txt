@@ -1,0 +1,70 @@
+# Simulated Employee/User Interactions Export (as of June 2025)
+
+## Core Logic (from ServiceRequestLogic.tsx)
+
+- Each service request is assigned to a simulated employee (from Supabase, never 'Unknown').
+- Each employee can be declined twice per request:
+  - First decline triggers a revised quote (shown immediately, no intermediate status screen).
+  - Second decline blacklists the employee for this request and assigns a new one (if available).
+- Decline counts are tracked per employee per request and reset for each new employee.
+- Price quotes only change after a user decline, never randomly.
+- Blacklists are per-request and reset after request completion/cancellation.
+- All UI and state updates (employee assignment, quote, blacklist, request status) are robust and in sync.
+- If no valid employee is available, the user is shown a clear error and the request is not assigned to 'Unknown'.
+
+## Employee Assignment Algorithm
+
+- Employees are loaded from the Supabase `employee_simulation` table at app start or on demand.
+- When a request is created, the system randomly selects an employee not in the per-request blacklist.
+- If all employees are blacklisted, the request is declined and the user is notified.
+- Employees are never assigned twice to the same request after being blacklisted.
+- The assignment is robust to concurrency: if two requests are created in parallel, each gets a unique employee (if available).
+
+## Quote and Revision Logic
+
+- The initial quote is generated based on the service type, with a fixed or slightly randomized base price.
+- On first decline, the quote is revised downward (never upward), and the revised quote is shown immediately.
+- On second decline, the employee is blacklisted for this request, and a new employee is assigned (if available) with a new quote.
+- Quotes are never revised unless the user explicitly declines.
+
+## Blacklist and State Reset
+
+- The per-request blacklist is reset when the request is completed or cancelled.
+- Blacklists are never shared between requests or users.
+- Decline counts are reset for each new employee assigned to a request.
+
+## UI Flow
+
+1. User submits a service request.
+2. System assigns a valid simulated employee (from Supabase) and immediately shows the price quote dialog.
+3. If the user declines:
+   - On first decline: revised quote is shown immediately (no intermediate status screen).
+   - On second decline: employee is blacklisted for this request, a new employee is assigned (if available), and a new quote is shown.
+4. If all employees are blacklisted, the user is shown an error and the request is declined.
+5. If the user accepts a quote, the employee is simulated as moving toward the user and the request is completed after a 5 second delay.
+
+## State Management
+
+- `currentEmployeeName`: Always a valid name from Supabase, never 'Unknown'.
+- `hasDeclinedOnce`: Tracks if the current employee has been declined once for this request.
+- `employeeDeclineCounts`: Tracks decline count per employee per request.
+- `showPriceQuote`: Controls visibility of the price/revised quote dialog.
+- `status`, `declineReason`, `priceQuote`, etc.: Always in sync with the robust simulation system.
+- All state is managed in React hooks and is robust to rapid user actions or navigation.
+
+## Error Handling and Edge Cases
+
+- If no valid employee is available, the user is shown a clear error and the request is not assigned to 'Unknown'.
+- All error and status messages are shown via toast notifications and in the UI.
+- If the user closes the dialog or navigates away, the request state is preserved and can be resumed.
+- If the Supabase connection fails, the user is notified and no simulated employees are assigned.
+
+## Supabase and Demo/Test Flows
+
+- All simulated employees are sourced from the Supabase `employee_simulation` table, which can be managed via the admin UI or scripts.
+- The system is designed for both demo and test environments, and can be reset or seeded with test data as needed.
+- No real user or employee data is used in simulation flows.
+
+---
+
+This export summarizes all simulated employee/user interaction logic and state as implemented in the current system (see ServiceRequestLogic.tsx and related hooks/components). For further details, see the code and flowchart in the project documentation.
