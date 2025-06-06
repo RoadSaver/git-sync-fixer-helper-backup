@@ -98,7 +98,7 @@ export const uiTranslations: TranslationGroup = {
     bg: 'Паролите трябва да са поне 8 символа, да съдържат главна и малка буква, цифра, специален символ и да не съдържат забранени думи.'
   },
   'info-icon-password-content-detailed': {
-    en: `Passwords must contain:\n1. A minimum of 1 upper case letter [A-Z] and\n2. A minimum of 1 lower case letter [a-z] and\n3. A minimum of 1 numeric character [0-9] and\n4. A minimum of 1 special character:\n ~`!@#$%^&*()-_+={}[]|\\;:\"<>,./? "`,
-    bg: `Паролите трябва да съдържат:\n1. Поне 1 главна буква [A-Z] и\n2. Поне 1 малка буква [a-z] и\n3. Поне 1 цифра [0-9] и\n4. Поне 1 специален символ:\n ~`!@#$%^&*()-_+={}[]|\\;:\"<>,./? "`
+    en: 'Passwords must contain:\n1. A minimum of 1 upper case letter [A-Z] and\n2. A minimum of 1 lower case letter [a-z] and\n3. A minimum of 1 numeric character [0-9] and\n4. A minimum of 1 special character:\n ~`!@#$%^&*()-_+={}[]|\\;:\"<>,./? ',
+    bg: 'Паролите трябва да съдържат:\n1. Поне 1 главна буква [A-Z] и\n2. Поне 1 малка буква [a-z] и\n3. Поне 1 цифра [0-9] и\n4. Поне 1 специален символ:\n ~`!@#$%^&*()-_+={}[]|\\;:\"<>,./? '
   },
 };
