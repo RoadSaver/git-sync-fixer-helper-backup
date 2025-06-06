@@ -86,8 +86,8 @@ export const uiTranslations: TranslationGroup = {
     bg: 'Изисквания за потребителско име'
   },
   'info-icon-username-content': {
-    en: 'Usernames must be 6-20 characters, lowercase, and cannot contain spaces or offensive words.',
-    bg: 'Потребителските имена трябва да са между 6 и 20 символа, с малки букви и без интервали или обидни думи.'
+    en: "Usernames can contain letters (a-z), numbers (0-9), dashes (-), underscores (_), apostrophes ('), and periods (.). Usernames can't contain more than one period (.) in a row, accents, accented letters, ampersands (&), equal signs (=), brackets (<,>), plus signs (+), commas (,), or exclamation points (!). Usernames must begin with alphanumeric characters and can end with non-alphanumeric characters.",
+    bg: "Потребителските имена могат да съдържат букви (a-z), цифри (0-9), тирета (-), долни черти (_), апострофи (') и точки (.). Потребителските имена не могат да съдържат повече от една точка (.) подред, ударения, букви с ударения, амперсанди (&), знаци за равенство (=), скоби (<,>), знаци плюс (+), запетаи (,) или удивителни знаци (!). Потребителските имена трябва да започват с буква или цифра и могат да завършват с неалфанумеричен символ."
   },
   'info-icon-password-title': {
     en: 'Password Requirements',
@@ -98,7 +98,7 @@ export const uiTranslations: TranslationGroup = {
     bg: 'Паролите трябва да са поне 8 символа, да съдържат главна и малка буква, цифра, специален символ и да не съдържат забранени думи.'
   },
   'info-icon-password-content-detailed': {
-    en: 'Passwords must contain:\n1. A minimum of 1 upper case letter [A-Z] and\n2. A minimum of 1 lower case letter [a-z] and\n3. A minimum of 1 numeric character [0-9] and\n4. A minimum of 1 special character:\n ~`!@#$%^&*()-_+={}[]|\\;:\\"<>,./? ',
-    bg: 'Паролите трябва да съдържат:\n1. Поне 1 главна буква [A-Z] и\n2. Поне 1 малка буква [a-z] и\n3. Поне 1 цифра [0-9] и\n4. Поне 1 специален символ:\n ~`!@#$%^&*()-_+={}[]|\\;:\\"<>,./? '
+    en: 'Passwords must contain:\n1. A minimum of 1 upper case letter [A-Z] and\n2. A minimum of 1 lower case letter [a-z] and\n3. A minimum of 1 numeric character [0-9] and\n4. A minimum of 1 special character:\n ~`!@#$%^&*()-_+={}[]|\\;:\"<>,./? ',
+    bg: 'Паролите трябва да съдържат:\n1. Поне 1 главна буква [A-Z] и\n2. Поне 1 малка буква [a-z] и\n3. Поне 1 цифра [0-9] и\n4. Поне 1 специален символ:\n ~`!@#$%^&*()-_+={}[]|\\;:\"<>,./? '
   },
 };
